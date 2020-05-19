@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="150dp"
+    android:layout_height="150dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    >
+
+
+
+
+    <ImageButton
+        android:id="@+id/ib_upload_new"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/label_addmore"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        android:layout_marginRight="5dp"
+
+        app:layout_constraintHorizontal_chainStyle="packed"
+
+
+
+        android:background="@drawable/ic_add_circle_outline_black_24dp"
+
+        />
+
+    <TextView
+        android:id="@+id/label_addmore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintLeft_toRightOf="@id/ib_upload_new"
+        app:layout_constraintTop_toTopOf="@id/ib_upload_new"
+        app:layout_constraintBottom_toBottomOf="@id/ib_upload_new"
+        app:layout_constraintRight_toRightOf="parent"
+
+        style="@style/usaShopperTextField1"
+        android:text="ADD MORE"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/colorLightRed"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

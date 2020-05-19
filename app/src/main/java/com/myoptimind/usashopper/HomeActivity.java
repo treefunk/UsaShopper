@@ -11,10 +11,8 @@ import com.myoptimind.usashopper.ui.SearchFragment;
 
 public class HomeActivity extends SingleFragmentActivity {
 
-    public static Intent newInstance(Context context) {
-
+    public static Intent createIntent(Context context) {
         Intent intent = new Intent(context, HomeActivity.class);
-//        intent.putExtra()
         return intent;
     }
 

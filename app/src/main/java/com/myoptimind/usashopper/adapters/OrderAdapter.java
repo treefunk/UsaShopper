@@ -17,17 +17,28 @@ import java.util.List;
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
 
     private List<Order> mOrders;
+    private OrderListener mOrderListener;
 
     public OrderAdapter(List<Order> orders) {
         mOrders = orders;
     }
 
-    public class OrderViewHolder extends RecyclerView.ViewHolder {
+    public void setOrderListener(OrderListener orderListener) {
+        mOrderListener = orderListener;
+    }
+
+    /*
+    *
+    *   View
+    * */
+
+    class OrderViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvOrderNum,tvOrderSub,tvOrderDate;
         Button btnView;
+        OrderListener mOrderListener;
 
-        public OrderViewHolder(@NonNull View itemView) {
+        public OrderViewHolder(@NonNull View itemView,OrderListener orderListener) {
 
             super(itemView);
 
@@ -35,13 +46,23 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             tvOrderSub  = itemView.findViewById(R.id.tv_order_sub);
             tvOrderDate = itemView.findViewById(R.id.tv_date);
             btnView     = itemView.findViewById(R.id.btn_view);
+            mOrderListener = orderListener;
 
         }
 
-        public void bind(Order order){
+        public void bind(final Order order, final int position){
+
             tvOrderNum.setText("Order #" + order.getDiameter());
             tvOrderSub.setText(order.getName());
             tvOrderDate.setText(order.getGravity());
+
+            btnView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOrderListener.onClickView(order,position);
+                }
+            });
+
         }
     }
 
@@ -50,19 +71,29 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        OrderViewHolder viewHolder = new OrderViewHolder(inflater.inflate(R.layout.list_item_order,parent,false));
+        OrderViewHolder viewHolder = new OrderViewHolder(
+                inflater.inflate(R.layout.list_item_order,parent,false),
+                mOrderListener
+        );
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
-        holder.bind(mOrders.get(position));
+        Order order = mOrders.get(position);
+        holder.bind(order,position);
     }
 
     @Override
     public int getItemCount() {
         return mOrders.size();
     }
+
+    public interface OrderListener{
+        void onClickView(Order order, int position);
+    }
+
+
 
 
 }

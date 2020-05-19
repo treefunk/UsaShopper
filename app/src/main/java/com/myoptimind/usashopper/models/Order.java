@@ -1,6 +1,8 @@
 package com.myoptimind.usashopper.models;
 
 
+import java.util.List;
+
 //TODO modify attributes
 public class Order {
 
@@ -8,6 +10,7 @@ public class Order {
     private String diameter;
     private String gravity;
     private String name;
+    private List<String> uploads;
 
     public String getClimate() {
         return climate;
@@ -39,5 +42,13 @@ public class Order {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<String> getUploads() {
+        return uploads;
+    }
+
+    public void setUploads(List<String> uploads) {
+        this.uploads = uploads;
     }
 }

@@ -28,6 +28,11 @@
             >
 
         </activity>
+
+        <activity android:name=".OrderActivity"
+            android:parentActivityName=".HomeActivity">
+
+        </activity>
     </application>
 
 </manifest>

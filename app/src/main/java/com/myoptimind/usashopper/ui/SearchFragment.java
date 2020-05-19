@@ -1,5 +1,6 @@
 package com.myoptimind.usashopper.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.myoptimind.usashopper.OrderActivity;
 import com.myoptimind.usashopper.R;
 import com.myoptimind.usashopper.adapters.OrderAdapter;
 import com.myoptimind.usashopper.models.Order;
@@ -46,10 +48,22 @@ public class SearchFragment extends Fragment {
         searchViewModel.getOrders().observe(getViewLifecycleOwner(), new Observer<List<Order>>() {
             @Override
             public void onChanged(List<Order> orders) {
+
                 if(orders != null){
-                    OrderAdapter orderAdapter = new OrderAdapter(orders);
+
+                    final OrderAdapter orderAdapter = new OrderAdapter(orders);
+
+                    orderAdapter.setOrderListener(new OrderAdapter.OrderListener() {
+                        @Override
+                        public void onClickView(Order order, int position) {
+                            Intent intent = OrderActivity.createIntent(getActivity(),999);
+                            startActivity(intent);
+                        }
+                    });
+
                     rvOrders.setAdapter(orderAdapter);
                     orderAdapter.notifyDataSetChanged();
+
                 }
             }
         });

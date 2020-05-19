@@ -8,6 +8,8 @@
 
     <color name="colorPrimary">#374f99</color>
     <color name="colorPrimaryLight">#6a7bca</color>
+    <color name="colorPrimaryLight50">#806a7bca</color>
+
     <color name="colorPrimaryDark">#00286a</color>
     <color name="colorSecondary">#e67067</color>
     <color name="colorSecondaryLight">#ffa195</color>

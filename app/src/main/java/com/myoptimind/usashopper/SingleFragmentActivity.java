@@ -1,6 +1,8 @@
 package com.myoptimind.usashopper;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,16 +13,24 @@ abstract class SingleFragmentActivity extends AppCompatActivity {
 
     protected abstract Fragment createFragment();
 
-    protected int layoutId = R.layout.activity_home;
+    protected Boolean bottomNavVisibility = true;
+
+    public void setBottomNavVisibility(Boolean bottomNavVisibility) {
+        this.bottomNavVisibility = bottomNavVisibility;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(layoutId);
+        setContentView(R.layout.activity_home);
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+
+        if(!bottomNavVisibility){
+            findViewById(R.id.bottom_navigation).setVisibility(View.GONE);
+        }
 
         if(fragment == null){
             fragment = createFragment();
@@ -29,7 +39,4 @@ abstract class SingleFragmentActivity extends AppCompatActivity {
 
     }
 
-    public void setLayoutId(int layoutId) {
-        this.layoutId = layoutId;
-    }
 }

@@ -25,9 +25,8 @@ public class LoginFragment extends Fragment {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 //TODO LOGIN
-                startActivity(HomeActivity.newInstance(getActivity()));
+                startActivity(HomeActivity.createIntent(getActivity()));
             }
         });
 

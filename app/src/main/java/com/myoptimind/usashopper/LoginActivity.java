@@ -1,5 +1,6 @@
 package com.myoptimind.usashopper;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -16,7 +17,8 @@ public class LoginActivity extends SingleFragmentActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        setLayoutId(R.layout.activity_fragment);
+        setBottomNavVisibility(false);
         super.onCreate(savedInstanceState);
     }
+
 }
