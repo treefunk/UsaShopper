@@ -1,12 +1,12 @@
-package com.myoptimind.usashopper;
+package com.myoptimind.usashopper.features.login;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.myoptimind.usashopper.ui.LoginFragment;
+import com.myoptimind.usashopper.SingleFragmentActivity;
+import com.myoptimind.usashopper.features.login.LoginFragment;
 
 public class LoginActivity extends SingleFragmentActivity {
 

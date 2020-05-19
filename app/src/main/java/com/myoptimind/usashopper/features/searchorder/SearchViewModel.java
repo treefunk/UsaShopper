@@ -1,4 +1,4 @@
-package com.myoptimind.usashopper.viewmodels;
+package com.myoptimind.usashopper.features.searchorder;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;

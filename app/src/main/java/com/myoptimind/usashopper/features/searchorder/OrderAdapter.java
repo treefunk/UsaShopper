@@ -1,4 +1,4 @@
-package com.myoptimind.usashopper.adapters;
+package com.myoptimind.usashopper.features.searchorder;
 
 import android.view.LayoutInflater;
 import android.view.View;

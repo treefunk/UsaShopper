@@ -1,4 +1,4 @@
-package com.myoptimind.usashopper.adapters;
+package com.myoptimind.usashopper.features.orderdetail;
 
 import android.app.Application;
 import android.util.Log;

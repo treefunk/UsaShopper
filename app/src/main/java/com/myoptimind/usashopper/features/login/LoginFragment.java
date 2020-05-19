@@ -1,4 +1,4 @@
-package com.myoptimind.usashopper.ui;
+package com.myoptimind.usashopper.features.login;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.myoptimind.usashopper.HomeActivity;
+import com.myoptimind.usashopper.features.searchorder.SearchActivity;
 import com.myoptimind.usashopper.R;
 
 public class LoginFragment extends Fragment {
@@ -26,7 +26,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //TODO LOGIN
-                startActivity(HomeActivity.createIntent(getActivity()));
+                startActivity(SearchActivity.createIntent(getActivity()));
             }
         });
 

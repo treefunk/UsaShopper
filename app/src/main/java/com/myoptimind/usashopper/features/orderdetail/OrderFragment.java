@@ -1,11 +1,9 @@
-package com.myoptimind.usashopper.ui;
+package com.myoptimind.usashopper.features.orderdetail;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,9 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.myoptimind.usashopper.R;
-import com.myoptimind.usashopper.adapters.UploadOrderAdapter;
 import com.myoptimind.usashopper.models.OrderUpload;
-import com.myoptimind.usashopper.viewmodels.OrderViewModel;
 
 import java.util.List;
 
