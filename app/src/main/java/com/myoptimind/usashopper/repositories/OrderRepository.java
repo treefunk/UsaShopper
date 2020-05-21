@@ -14,9 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class OrderRepository {
 
@@ -28,14 +31,18 @@ public class OrderRepository {
         mOrderService = UsaShopperApi.createOrderService();
     }
 
-    public LiveData<List<Order>> getOrders(){
+    public Flowable<OrderService.OrderResponse> getOrderList(){
+        return mOrderService.listOrders();
+    }
+
+/*    public LiveData<List<Order>> getOrders(){
 
         final MutableLiveData<List<Order>> orders = new MutableLiveData<>();
 
         mOrderService.listOrders().enqueue(new Callback<OrderService.OrderResponse>() {
             @Override
             public void onResponse(Call<OrderService.OrderResponse> call, Response<OrderService.OrderResponse> response) {
-                Log.v(TAG,"SUCCESS");
+                Timber.v("SUCCESS");
 
                 for (Order order : response.body().getResults()) {
 
@@ -53,15 +60,16 @@ public class OrderRepository {
 
             @Override
             public void onFailure(Call<OrderService.OrderResponse> call, Throwable t) {
-                Log.v(TAG,"error");
-                Log.v(TAG,t.getMessage());
+                Timber.v("error");
+                Timber.v(t.getMessage());
             }
         });
 
         return orders;
-    }
+    }*/
 
     public LiveData<List<OrderUpload>> getOrderUploads(){
+
         MutableLiveData<List<OrderUpload>> orderUploads = new MutableLiveData<>();
 
             ArrayList<OrderUpload> uploads = new ArrayList<>();
@@ -69,7 +77,7 @@ public class OrderRepository {
 
             for(int i = 0 ; i < imageCount ; i++){
                 OrderUpload orderUpload = new OrderUpload();
-                orderUpload.setImage("https://vignette.wikia.nocookie.net/amberstars-legend/images/3/34/EB89E9DE-24EC-4A11-8410-B8D99766B4CD.jpeg");
+                orderUpload.setImage("http://placekitten.com/1000/1000");
                 orderUpload.setId(i);
                 uploads.add(orderUpload);
             }

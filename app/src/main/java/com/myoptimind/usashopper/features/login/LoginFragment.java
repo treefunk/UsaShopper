@@ -27,6 +27,7 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
                 //TODO LOGIN
                 startActivity(SearchActivity.createIntent(getActivity()));
+                getActivity().finish();
             }
         });
 

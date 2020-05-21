@@ -62,13 +62,14 @@
                 android:layout_margin="8dp"
                 android:orientation="vertical"
                 android:gravity="center">
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="View"
                     android:textColor="@color/colorLightRed"
-                    style="?attr/borderlessButtonStyle"
+                    app:rippleColor="@color/colorLightBlue"
+                    style="@style/usaShopperButton3"
                     />
             </LinearLayout>
 

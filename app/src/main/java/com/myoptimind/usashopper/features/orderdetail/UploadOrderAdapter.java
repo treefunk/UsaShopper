@@ -1,10 +1,13 @@
 package com.myoptimind.usashopper.features.orderdetail;
 
 import android.app.Application;
+import android.content.Intent;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -21,14 +24,21 @@ import com.myoptimind.usashopper.models.OrderUpload;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 public class UploadOrderAdapter extends RecyclerView.Adapter {
 
     private static final String TAG = "UploadOrderAdapter";
+    private UploadOrderListener mUploadOrderListener;
 
     private int rvWidth;
 
     public void setRvWidth(int rvWidth) {
         this.rvWidth = rvWidth;
+    }
+
+    public void setUploadOrderListener(UploadOrderListener uploadOrderListener) {
+        mUploadOrderListener = uploadOrderListener;
     }
 
     private static final int WITH_IMAGE = 100;
@@ -56,10 +66,20 @@ public class UploadOrderAdapter extends RecyclerView.Adapter {
     public class UploadHolder extends RecyclerView.ViewHolder{
 
         private ImageView ivUploadedImage;
+        private UploadOrderListener mUploadOrderListener;
 
-        public UploadHolder(@NonNull View itemView) {
+
+        public UploadHolder(@NonNull View itemView, UploadOrderListener uploadOrderListener) {
             super(itemView);
+            mUploadOrderListener = uploadOrderListener;
             ivUploadedImage = itemView.findViewById(R.id.iv_uploaded_image);
+
+            ivUploadedImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    uploadOrderListener.onClickImage(getAdapterPosition());
+                }
+            });
         }
 
         void bind(OrderUpload orderUpload, int position){
@@ -74,18 +94,19 @@ public class UploadOrderAdapter extends RecyclerView.Adapter {
      */
     public class UploadNewHolder extends RecyclerView.ViewHolder{
 
-        private ImageButton ibAddNew;
+        private Button btnAddNew;
+        private UploadOrderListener mUploadOrderListener;
 
-        public UploadNewHolder(@NonNull View itemView) {
-
+        public UploadNewHolder(@NonNull View itemView, UploadOrderListener uploadOrderListener) {
             super(itemView);
+            mUploadOrderListener = uploadOrderListener;
 
-            ibAddNew = itemView.findViewById(R.id.ib_upload_new);
+            btnAddNew = itemView.findViewById(R.id.btn_upload_new);
 
-            ibAddNew.setOnClickListener(new View.OnClickListener() {
+            btnAddNew.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    uploadOrderListener.onClickUpload(getAdapterPosition());
                 }
             });
         }
@@ -98,13 +119,23 @@ public class UploadOrderAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         if(viewType == WITH_IMAGE){
-            return new UploadHolder(inflater.inflate(R.layout.list_item_upload,parent,false));
+            return new UploadHolder(inflater.inflate(R.layout.list_item_upload,parent,false),mUploadOrderListener);
         }
-        return new UploadNewHolder(inflater.inflate(R.layout.list_item_upload_new,parent,false));
+        return new UploadNewHolder(inflater.inflate(R.layout.list_item_upload_new,parent,false),mUploadOrderListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
+        OrderUpload orderUpload = mUploads.get(position);
+
+        if(orderUpload != null){
+            ((UploadHolder) holder).bind(orderUpload,position);
+        }
+
+        if(orderUpload == null && position == 0){
+            ((UploadNewHolder) holder).btnAddNew.setText("Add Image");
+        }
 
     }
 

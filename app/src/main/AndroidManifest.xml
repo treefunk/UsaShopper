@@ -28,16 +28,28 @@
         </activity>
 
         <activity android:name=".features.searchorder.SearchActivity"
-            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
+            android:launchMode="singleTop"
+            android:label=""
             android:windowSoftInputMode="adjustNothing"
             >
 
         </activity>
 
         <activity android:name=".features.orderdetail.OrderActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
+            android:launchMode="singleTop"
+            android:label=""
             android:parentActivityName=".features.searchorder.SearchActivity">
 
         </activity>
+
+        <activity android:name=".features.orderdetail.SlideShowActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
+            android:label=""
+            android:parentActivityName=".features.orderdetail.OrderActivity">
+        </activity>
+
     </application>
 
 </manifest>

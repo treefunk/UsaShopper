@@ -4,6 +4,8 @@ import com.myoptimind.usashopper.models.Order;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 
@@ -17,14 +19,13 @@ public interface OrderService {
             return results;
         }
 
-
-
         public void setResults(List<Order> results) {
             this.results = results;
         }
+
     }
 
     @GET("planets")
-    Call<OrderResponse> listOrders();
+    Flowable<OrderResponse> listOrders();
 
 }

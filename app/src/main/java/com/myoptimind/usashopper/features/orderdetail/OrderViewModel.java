@@ -8,6 +8,8 @@ import com.myoptimind.usashopper.repositories.OrderRepository;
 
 import java.util.List;
 
+import io.reactivex.disposables.CompositeDisposable;
+
 public class OrderViewModel extends ViewModel {
 
     private LiveData<List<OrderUpload>> orderUploads;
