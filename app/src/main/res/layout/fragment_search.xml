@@ -6,8 +6,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <TextView
+        android:id="@+id/label_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/txtinput_search"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/txtinput_search"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintHorizontal_bias="0"
+
+        android:layout_marginBottom="15dp"
+
+        android:text="Search Order"
+        android:fontFamily="@font/gilroy_light"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20sp"
+        />
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/txtinput_username"
+        android:id="@+id/txtinput_search"
         style="@style/usaShopperTextField1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -23,6 +41,7 @@
         app:layout_constraintBottom_toTopOf="@id/btn_search"
         app:layout_constraintVertical_chainStyle="packed"
         app:startIconDrawable="@drawable/ic_search_black_24dp">
+
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_search"
@@ -42,18 +61,41 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        app:layout_constraintTop_toBottomOf="@id/txtinput_username"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtinput_search"
+        app:layout_constraintLeft_toLeftOf="@id/txtinput_search"
+        app:layout_constraintRight_toLeftOf="@id/btn_filters"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+
+        style="@style/usaShopperButton2"
+        android:text="Search"
+        android:textColor="@android:color/white"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_filters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintTop_toBottomOf="@id/txtinput_search"
+        app:layout_constraintLeft_toRightOf="@id/btn_search"
+        app:layout_constraintRight_toRightOf="@id/txtinput_search"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
 
         style="@style/usaShopperButton2"
-        android:text="Search"
+        app:backgroundTint="@color/colorLightRed"
+        app:rippleColor="@color/colorLightBlue"
+
+        android:text="Filters"
         android:textColor="@android:color/white"
         />
 

@@ -52,9 +52,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
         public void bind(final Order order, final int position){
 
-            tvOrderNum.setText("Order #" + order.getDiameter());
-            tvOrderSub.setText(order.getName());
-            tvOrderDate.setText(order.getGravity());
+            tvOrderNum.setText(order.getOrderId());
+            tvOrderSub.setText(order.getShopperEmail());
+            tvOrderDate.setText(order.getRequestedDate());
 
             btnView.setOnClickListener(new View.OnClickListener() {
                 @Override

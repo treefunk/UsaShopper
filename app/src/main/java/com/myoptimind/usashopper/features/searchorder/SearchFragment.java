@@ -25,6 +25,7 @@ import com.myoptimind.usashopper.features.orderdetail.OrderActivity;
 import com.myoptimind.usashopper.R;
 import com.myoptimind.usashopper.models.Order;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFragment extends Fragment {
@@ -59,7 +60,7 @@ public class SearchFragment extends Fragment {
         SearchViewModel searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
 
         rvOrders.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false));
-
+        rvOrders.setAdapter(new OrderAdapter(new ArrayList<>()));
         searchViewModel.getIsFetchingOrders().observe(getViewLifecycleOwner(), (Boolean isFetching) -> {
             btnSearch.setEnabled(!isFetching);
             if(isFetching){
@@ -84,6 +85,7 @@ public class SearchFragment extends Fragment {
                                 rvOrders.getId(),ConstraintSet.TOP);
                         TransitionManager.beginDelayedTransition(root);
                         constraintSet.applyTo(root);
+                        getActivity().setTitle("Search Order");
                     }
 
 
@@ -107,7 +109,7 @@ public class SearchFragment extends Fragment {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchViewModel.getOrders("");
+                searchViewModel.getOrders(etSearch.getText().toString());
             }
         });
 

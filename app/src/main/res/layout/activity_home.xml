@@ -20,7 +20,6 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_navigation"
         />
 
 
@@ -34,7 +33,8 @@
         android:background="@color/colorPrimaryDark"
         app:itemIconTint="@android:color/white"
         app:itemTextColor="@android:color/white"
-        app:menu="@menu/bottom_menu_nav" />
+        app:menu="@menu/bottom_menu_nav"
+        android:visibility="gone"/>
 
     </RelativeLayout>
 

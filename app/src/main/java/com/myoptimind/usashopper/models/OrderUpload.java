@@ -1,5 +1,6 @@
 package com.myoptimind.usashopper.models;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -7,6 +8,7 @@ public class OrderUpload implements Parcelable {
 
     private int id;
     private String image;
+    private Bitmap bitmap;
 
     public int getId() {
         return id;
@@ -24,6 +26,13 @@ public class OrderUpload implements Parcelable {
         this.image = image;
     }
 
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
 
     @Override
     public int describeContents() {

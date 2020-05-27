@@ -11,15 +11,20 @@
         android:id="@+id/iv_uploaded_image"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:scaleType="centerCrop"
 
         android:layout_marginTop="18dp"
         android:layout_marginRight="10dp"
+        android:layout_marginLeft="5dp"
 
+        android:scaleType="centerCrop"
+
+
+        tools:src="@tools:sample/avatars"
         />
 
     <ImageButton

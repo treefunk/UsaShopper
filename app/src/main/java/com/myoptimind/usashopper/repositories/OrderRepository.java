@@ -31,8 +31,8 @@ public class OrderRepository {
         mOrderService = UsaShopperApi.createOrderService();
     }
 
-    public Flowable<OrderService.OrderResponse> getOrderList(){
-        return mOrderService.listOrders();
+    public Flowable<OrderService.OrderResponse> getOrderList(String keyword){
+        return mOrderService.listOrders(keyword);
     }
 
 /*    public LiveData<List<Order>> getOrders(){
@@ -68,7 +68,7 @@ public class OrderRepository {
         return orders;
     }*/
 
-    public LiveData<List<OrderUpload>> getOrderUploads(){
+    public MutableLiveData<List<OrderUpload>> getOrderUploads(){
 
         MutableLiveData<List<OrderUpload>> orderUploads = new MutableLiveData<>();
 

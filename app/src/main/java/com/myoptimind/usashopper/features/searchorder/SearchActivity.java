@@ -13,6 +13,7 @@ public class SearchActivity extends SingleFragmentActivity {
 
     public static Intent createIntent(Context context) {
         Intent intent = new Intent(context, SearchActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         return intent;
     }
 

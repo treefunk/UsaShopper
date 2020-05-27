@@ -76,6 +76,8 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                 Intent intent = LoginActivity.createIntent(this);
                 startActivity(intent);
             }
+        }else{
+//            onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }

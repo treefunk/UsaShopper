@@ -66,6 +66,7 @@ public class UploadOrderAdapter extends RecyclerView.Adapter {
     public class UploadHolder extends RecyclerView.ViewHolder{
 
         private ImageView ivUploadedImage;
+        private ImageButton ibRemove;
         private UploadOrderListener mUploadOrderListener;
 
 
@@ -73,6 +74,7 @@ public class UploadOrderAdapter extends RecyclerView.Adapter {
             super(itemView);
             mUploadOrderListener = uploadOrderListener;
             ivUploadedImage = itemView.findViewById(R.id.iv_uploaded_image);
+            ibRemove        = itemView.findViewById(R.id.ib_remove);
 
             ivUploadedImage.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -80,11 +82,19 @@ public class UploadOrderAdapter extends RecyclerView.Adapter {
                     uploadOrderListener.onClickImage(getAdapterPosition());
                 }
             });
+            ibRemove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    uploadOrderListener.onClickRemove(getAdapterPosition());
+                }
+            });
         }
 
         void bind(OrderUpload orderUpload, int position){
             Glide.with(itemView.getContext())
-                    .load(orderUpload.getImage())
+                    .load(
+                            orderUpload.getImage().isEmpty() ? orderUpload.getBitmap() : orderUpload.getImage()
+                    )
                     .into(ivUploadedImage);
         }
     }

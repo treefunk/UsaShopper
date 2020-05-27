@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment;
 
 import com.myoptimind.usashopper.SingleFragmentActivity;
 
-import timber.log.Timber;
 
 public class OrderActivity extends SingleFragmentActivity {
 
@@ -20,14 +19,14 @@ public class OrderActivity extends SingleFragmentActivity {
     public static Intent createIntent(Context context, int orderId){
         Intent intent = new Intent(context, OrderActivity.class);
         intent.putExtra(KEY_ORDER_ID,orderId);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         return intent;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
-        Timber.plant(new Timber.DebugTree());
+//        Timber.plant(new Timber.DebugTree());
     }
 
     @Override

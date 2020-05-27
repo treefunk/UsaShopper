@@ -39,12 +39,12 @@
     </style>
 
     <style name="usaShopperButton1" parent="Widget.MaterialComponents.Button">
-        <item name="android:paddingLeft">13dp</item>
-        <item name="android:paddingStart">13dp</item>
-        <item name="android:paddingEnd">13dp</item>
-        <item name="android:paddingRight">13dp</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:paddingRight">4dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:fontFamily">@font/gilroy_extra_bold</item>
         <item name="android:letterSpacing">0.2</item>
@@ -54,19 +54,35 @@
     </style>
 
     <style name="usaShopperButton2" parent="Widget.MaterialComponents.Button">
-        <item name="android:paddingLeft">13dp</item>
-        <item name="android:paddingStart">13dp</item>
-        <item name="android:paddingEnd">13dp</item>
-        <item name="android:paddingRight">13dp</item>
+        <item name="android:paddingLeft">6dp</item>
+        <item name="android:paddingStart">6dp</item>
+        <item name="android:paddingEnd">6dp</item>
+        <item name="android:paddingRight">6dp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:fontFamily">@font/gilroy_extra_bold</item>
+<!--
         <item name="android:letterSpacing">0.2</item>
-        <item name="android:textSize">20sp</item>
+-->
+<!--
+        <item name="android:textSize">15sp</item>
+-->
         <item name="backgroundTint">@color/colorPrimaryDark</item>
         <item name="rippleColor">@color/colorLightRed</item>
     </style>
 
     <style name="usaShopperButton3" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:paddingRight">4dp</item>
+        <item name="android:textColor">@color/colorLightRed</item>
+        <item name="android:fontFamily">@font/gilroy_light</item>
+        <item name="iconTint">@color/colorLightRed</item>
+        <item name="android:textSize">15sp</item>
+        <item name="rippleColor">@color/colorLightBlue</item>
+    </style>
+
+    <style name="usaShopperButton4" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:paddingLeft">13dp</item>
         <item name="android:paddingStart">13dp</item>
         <item name="android:paddingEnd">13dp</item>
@@ -74,8 +90,10 @@
         <item name="android:textColor">@color/colorLightRed</item>
         <item name="android:fontFamily">@font/gilroy_light</item>
         <item name="iconTint">@color/colorLightRed</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="rippleColor">@color/colorLightBlue</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.MaterialComponents.LargeComponent</item>
+
     </style>
 
 </resources>

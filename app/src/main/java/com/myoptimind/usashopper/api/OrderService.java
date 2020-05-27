@@ -5,27 +5,32 @@ import com.myoptimind.usashopper.models.Order;
 import java.util.List;
 
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 
 public interface OrderService {
 
-    public class OrderResponse {
+    class OrderResponse {
 
-        private List<Order> results;
+        private List<Order> data;
 
-        public List<Order> getResults() {
-            return results;
+        public List<Order> getData() {
+            return data;
         }
 
-        public void setResults(List<Order> results) {
-            this.results = results;
+        public void setData(List<Order> data) {
+            this.data = data;
         }
 
     }
 
-    @GET("planets")
-    Flowable<OrderResponse> listOrders();
+    @POST("orders/search")
+    @FormUrlEncoded
+    Flowable<OrderResponse> listOrders(
+            @Field("text")
+            String keyword
+    );
 
 }

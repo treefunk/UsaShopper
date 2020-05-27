@@ -93,8 +93,6 @@
         app:layout_constraintLeft_toRightOf="@id/label_images"
         />
 
-
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_upload_orders"
         android:layout_width="0dp"
@@ -119,10 +117,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="8dp"
 
-
         style="@style/usaShopperButton1"
         android:text="MARK AS ARRIVED"
         />
+
+
 
 
 
