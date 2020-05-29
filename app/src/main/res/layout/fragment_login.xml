@@ -9,7 +9,7 @@
     android:paddingLeft="35dp"
     android:paddingEnd="35dp"
     android:paddingRight="35dp"
-    app:layoutDescription="@xml/fragment_main_scene">
+    >
 
 
     <androidx.appcompat.widget.AppCompatImageView

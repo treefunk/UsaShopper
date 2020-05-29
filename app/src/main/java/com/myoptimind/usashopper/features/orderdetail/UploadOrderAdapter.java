@@ -51,6 +51,9 @@ public class UploadOrderAdapter extends RecyclerView.Adapter {
         mUploads = uploads;
     }
 
+    public void setUploads(List<OrderUpload> uploads) {
+        mUploads = uploads;
+    }
 
     @Override
     public int getItemViewType(int position) {
@@ -93,7 +96,7 @@ public class UploadOrderAdapter extends RecyclerView.Adapter {
         void bind(OrderUpload orderUpload, int position){
             Glide.with(itemView.getContext())
                     .load(
-                            orderUpload.getImage().isEmpty() ? orderUpload.getBitmap() : orderUpload.getImage()
+                           orderUpload.getImage()
                     )
                     .into(ivUploadedImage);
         }

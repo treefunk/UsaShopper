@@ -1,8 +1,10 @@
 package com.myoptimind.usashopper.features.orderdetail;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -17,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
@@ -29,8 +32,16 @@ import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.myoptimind.usashopper.R;
 import com.myoptimind.usashopper.models.OrderUpload;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import io.reactivex.Flowable;
+
+import static android.app.Activity.RESULT_OK;
 
 public class OrderFragment extends Fragment{
 
@@ -39,20 +50,36 @@ public class OrderFragment extends Fragment{
     private static final String ARGS_ORDER_ID = "args_order_id";
     private static final int REQUEST_IMAGE_CAPTURE = 300;
 
-    ConstraintLayout mConstraintLayout;
+    private String orderId;
+
+    private ConstraintLayout mConstraintLayout;
+
+    private OrderViewModel orderViewModel;
+
+    private File uploaded = null;
+
+    private String fileUpload;
+
+    private int uploadCount = 0;
+
+    private UploadOrderAdapter uploadOrderAdapter;
 
 
-    OrderViewModel orderViewModel;
-
-    public static OrderFragment newInstance(int orderId) {
+    public static OrderFragment newInstance(String orderId) {
 
         Bundle args = new Bundle();
 
         OrderFragment fragment = new OrderFragment();
-        args.putInt(ARGS_ORDER_ID,orderId);
+        args.putString(ARGS_ORDER_ID,orderId);
         fragment.setArguments(args);
         return fragment;
 
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        orderId = getArguments().getString(ARGS_ORDER_ID);
     }
 
     @Nullable
@@ -62,9 +89,12 @@ public class OrderFragment extends Fragment{
 
         orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
 
+        orderViewModel.initOrder(orderId);
+
         final RecyclerView rvOrderUploads                = view.findViewById(R.id.rv_upload_orders);
         final Button btnMark                             = view.findViewById(R.id.btn_mark_as_arrived);
         final MaterialButtonToggleGroup btnToggleStatus  = view.findViewById(R.id.toggleButton);
+
         initOrderUploads(
                 rvOrderUploads,
                 btnMark,
@@ -77,13 +107,6 @@ public class OrderFragment extends Fragment{
         return view;
     }
 
-
-    private int getOrderId(){
-        return getArguments().getInt(ARGS_ORDER_ID,-1);
-    }
-
-
-
     private void initOrderUploads(
             final RecyclerView rvOrderUploads,
             final Button btnMark,
@@ -92,10 +115,14 @@ public class OrderFragment extends Fragment{
         // set grid layout
         rvOrderUploads.setLayoutManager(new GridLayoutManager(getActivity(),2));
 
+        uploadOrderAdapter = new UploadOrderAdapter(new ArrayList<>());
+        rvOrderUploads.setAdapter(uploadOrderAdapter);
+
         // observe order uploads
         orderViewModel.getOrderUploads().observe(getViewLifecycleOwner(), new Observer<List<OrderUpload>>() {
             @Override
             public void onChanged(List<OrderUpload> orderUploads) {
+
                 if(orderUploads != null){
 
                     String markMessage;
@@ -119,14 +146,36 @@ public class OrderFragment extends Fragment{
                         }
                     });
 
-                    final UploadOrderAdapter uploadOrderAdapter = new UploadOrderAdapter(orderUploads);
+
+                    uploadOrderAdapter.setUploads(orderUploads);
 
                     uploadOrderAdapter.setUploadOrderListener(new UploadOrderListener() {
                         @Override
                         public void onClickUpload(int pos) {
                             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
                             if(takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null){
-                                OrderFragment.this.startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
+
+                                uploaded = null;
+                                try {
+                                    uploaded = createImageFile();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                if(uploaded != null){
+
+                                    Uri uploadedUri = FileProvider.getUriForFile(
+                                            getActivity(),
+                                            "com.myoptimind.usashopper.fileprovider",
+                                            uploaded
+                                    );
+
+                                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uploadedUri);
+                                    startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
+
+                                }
+
                             }
                         }
 
@@ -156,8 +205,16 @@ public class OrderFragment extends Fragment{
                         }
                     });
 
-                    rvOrderUploads.setAdapter(uploadOrderAdapter);
-                    uploadOrderAdapter.notifyDataSetChanged();
+
+
+                    if((orderUploads.size() - 1) - uploadCount == 1){
+                        uploadOrderAdapter.notifyItemChanged(orderUploads.size() - 1);
+                        uploadOrderAdapter.notifyItemChanged(orderUploads.size());
+                    }else{
+                        uploadOrderAdapter.notifyDataSetChanged();
+                    }
+
+                    uploadCount = orderUploads.size() - 1;
 
                 }
 
@@ -165,18 +222,42 @@ public class OrderFragment extends Fragment{
             }
         });
 
+        orderViewModel.getUploaded().observe(getViewLifecycleOwner(), new Observer<File>() {
+            @Override
+            public void onChanged(File file) {
+                if(file != null){
+                    orderViewModel.doUploadRequest(file);
+                }
+            }
+        });
+
+    }
+
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName =  timeStamp + ".jpg";
+
+        File storageDir = new File(getActivity().getFilesDir(),"uploaded");
+        if(!storageDir.exists()){
+            storageDir.mkdirs();
+        }
+        File image = new File(
+                storageDir,
+                imageFileName
+        );
+        fileUpload = image.getAbsolutePath();
+        return image;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_IMAGE_CAPTURE){
-            Log.d(TAG,"res" + resultCode);
-            OrderUpload orderUpload = new OrderUpload();
-            orderUpload.setId(99);
-            orderUpload.setImage("");
-            orderUpload.setBitmap((Bitmap)data.getExtras().get("data"));
-            orderViewModel.addOrderUpload(orderUpload);
+        if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
+            if(uploaded != null){
+                orderViewModel.setUploaded(uploaded);
+            }
         }
     }
+
+
 }

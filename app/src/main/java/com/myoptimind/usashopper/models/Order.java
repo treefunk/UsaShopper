@@ -11,13 +11,15 @@ public class Order {
     public static final String TYPE_ORDER_FULL    = "type_order_full";
     public static final String TYPE_ORDER_PARTIAL = "type_order_partial";
 
+    private String id;
+
     @SerializedName("order_id")
     private String orderId;
 
     private String link;
 
-    @SerializedName("formatted_status")
-    private String formattedStatus;
+    @SerializedName("status")
+    private String status;
 
     @SerializedName("requested_date")
     private String requestedDate;
@@ -25,9 +27,8 @@ public class Order {
     @SerializedName("shopper_email")
     private String shopperEmail;
 
-    private String status;
-
-    private List<String> uploads;
+    @SerializedName("warehouse")
+    private List<OrderUpload> uploads;
 
     public String getOrderId() {
         return orderId;
@@ -45,14 +46,6 @@ public class Order {
         this.link = link;
     }
 
-    public String getFormattedStatus() {
-        return formattedStatus;
-    }
-
-    public void setFormattedStatus(String formattedStatus) {
-        this.formattedStatus = formattedStatus;
-    }
-
     public String getShopperEmail() {
         return shopperEmail;
     }
@@ -61,11 +54,11 @@ public class Order {
         this.shopperEmail = shopperEmail;
     }
 
-    public List<String> getUploads() {
+    public List<OrderUpload> getUploads() {
         return uploads;
     }
 
-    public void setUploads(List<String> uploads) {
+    public void setUploads(List<OrderUpload> uploads) {
         this.uploads = uploads;
     }
 
@@ -83,5 +76,13 @@ public class Order {
 
     public void setRequestedDate(String requestedDate) {
         this.requestedDate = requestedDate;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

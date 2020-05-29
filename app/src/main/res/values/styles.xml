@@ -59,14 +59,16 @@
         <item name="android:paddingEnd">6dp</item>
         <item name="android:paddingRight">6dp</item>
         <item name="android:textColor">@android:color/white</item>
+<!--        <item name="android:fontFamily">@font/gilroy_extra_bold</item>-->
         <item name="android:fontFamily">@font/gilroy_extra_bold</item>
-<!--
-        <item name="android:letterSpacing">0.2</item>
--->
+
+        <!--
+                <item name="android:letterSpacing">0.2</item>
+        -->
 <!--
         <item name="android:textSize">15sp</item>
 -->
-        <item name="backgroundTint">@color/colorPrimaryDark</item>
+        <item name="backgroundTint">@color/colorPrimaryLight</item>
         <item name="rippleColor">@color/colorLightRed</item>
     </style>
 

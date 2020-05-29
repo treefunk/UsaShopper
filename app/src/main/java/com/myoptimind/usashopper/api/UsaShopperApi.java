@@ -4,6 +4,7 @@ import com.myoptimind.usashopper.models.Order;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -35,6 +36,9 @@ public abstract class UsaShopperApi {
     private static Retrofit create(HttpUrl httpUrl){
 
         OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
                 .build();
 
         if(INSTANCE == null){

@@ -39,9 +39,9 @@ public class SearchViewModel extends ViewModel {
 
         isFetchingOrders.setValue(true);
         mCompositeDisposable.add(mOrderRepository.getOrderList(keyword)
-                .map(new Function<OrderService.OrderResponse, List<Order>>() {
+                .map(new Function<OrderService.OrdersResponse, List<Order>>() {
                     @Override
-                    public List<Order> apply(OrderService.OrderResponse orderResponse) throws Exception {
+                    public List<Order> apply(OrderService.OrdersResponse orderResponse) throws Exception {
                         return orderResponse.getData();
                     }
                 })

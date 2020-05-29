@@ -4,17 +4,21 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 public class OrderUpload implements Parcelable {
 
-    private int id;
-    private String image;
-    private Bitmap bitmap;
 
-    public int getId() {
+    private String id;
+
+    @SerializedName("img")
+    private String image;
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -26,14 +30,6 @@ public class OrderUpload implements Parcelable {
         this.image = image;
     }
 
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
-
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -41,7 +37,7 @@ public class OrderUpload implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
+        dest.writeString(this.id);
         dest.writeString(this.image);
     }
 
@@ -49,7 +45,7 @@ public class OrderUpload implements Parcelable {
     }
 
     public OrderUpload(Parcel in) {
-        this.id = in.readInt();
+        this.id = in.readString();
         this.image = in.readString();
     }
 

@@ -14,9 +14,9 @@ import com.myoptimind.usashopper.SingleFragmentActivity;
 public class OrderActivity extends SingleFragmentActivity {
 
     private static final String KEY_ORDER_ID = "key_order_id";
-    int orderId;
+    private String orderId;
 
-    public static Intent createIntent(Context context, int orderId){
+    public static Intent createIntent(Context context, String orderId){
         Intent intent = new Intent(context, OrderActivity.class);
         intent.putExtra(KEY_ORDER_ID,orderId);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -33,9 +33,7 @@ public class OrderActivity extends SingleFragmentActivity {
     protected Fragment createFragment() {
         Bundle bundle = getIntent().getExtras();
 
-        orderId = getIntent().getExtras().getInt(KEY_ORDER_ID);
-
-        setTitle("Order #" + orderId);
+        orderId = getIntent().getExtras().getString(KEY_ORDER_ID);
 
         return OrderFragment.newInstance(orderId);
     }
@@ -44,5 +42,10 @@ public class OrderActivity extends SingleFragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setBottomNavVisibility(false);
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

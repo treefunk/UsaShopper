@@ -94,7 +94,7 @@ public class SearchFragment extends Fragment {
                     orderAdapter.setOrderListener(new OrderAdapter.OrderListener() {
                         @Override
                         public void onClickView(Order order, int position) {
-                            Intent intent = OrderActivity.createIntent(getActivity(),999);
+                            Intent intent = OrderActivity.createIntent(getActivity(),order.getId());
                             startActivity(intent);
                         }
                     });
