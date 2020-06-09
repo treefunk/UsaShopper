@@ -1,101 +1,66 @@
-<resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    >
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorPrimary">@color/colorLightRed</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="AppThemeActionBar" parent="AppTheme">
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:windowActionBar">true</item>
     </style>
 
-    <style name="AppThemeWithAppbar" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorPrimary">@color/colorLightRed</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorSurface">@color/colorPrimaryDark</item>
+    <style name="AppThemeNoActionBar" parent="AppTheme">
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:windowActionBar">true</item>
     </style>
 
-    <style name="appbar1" parent="Widget.MaterialComponents.AppBarLayout.PrimarySurface">
-        <item name="background">@color/colorPrimaryDark</item>
-    </style>
-
-    <style name="appbar" parent="Widget.AppCompat.ActionBar">
-        <item name="background">@color/colorPrimaryDark</item>
-    </style>
-
-
-    <style name="usaShopperTextField1" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-<!--        <item name="boxStrokeColor">@color/colorPrimaryDark</item>-->
-        <item name="boxStrokeColor">@android:color/transparent</item>
-        <item name="hintTextColor">@color/colorPrimaryDark</item>
-<!--        <item name="hintTextColor">@android:color/white</item>-->
-        <item name="color">@android:color/white</item>
-        <item name="boxCornerRadiusTopStart">20dp</item>
-        <item name="boxCornerRadiusTopEnd">20dp</item>
-        <item name="boxCornerRadiusBottomEnd">20dp</item>
-        <item name="boxCornerRadiusBottomStart">20dp</item>
-        <item name="startIconTint">@color/colorPrimaryDark</item>
-        <item name="hintEnabled">false</item>
-    </style>
-
-    <style name="usaShopperButton1" parent="Widget.MaterialComponents.Button">
-        <item name="android:paddingLeft">4dp</item>
-        <item name="android:paddingStart">4dp</item>
-        <item name="android:paddingEnd">4dp</item>
-        <item name="android:paddingRight">4dp</item>
-        <item name="android:paddingTop">4dp</item>
-        <item name="android:paddingBottom">4dp</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:fontFamily">@font/gilroy_extra_bold</item>
-        <item name="android:letterSpacing">0.2</item>
-        <item name="backgroundTint">@color/colorLightRed</item>
-        <item name="android:textSize">20sp</item>
-        <item name="rippleColor">@color/colorLightBlue</item>
-    </style>
-
-    <style name="usaShopperButton2" parent="Widget.MaterialComponents.Button">
-        <item name="android:paddingLeft">6dp</item>
-        <item name="android:paddingStart">6dp</item>
-        <item name="android:paddingEnd">6dp</item>
-        <item name="android:paddingRight">6dp</item>
-        <item name="android:textColor">@android:color/white</item>
-<!--        <item name="android:fontFamily">@font/gilroy_extra_bold</item>-->
-        <item name="android:fontFamily">@font/gilroy_extra_bold</item>
-
-        <!--
-                <item name="android:letterSpacing">0.2</item>
-        -->
+    <style name="ThemeOverlay.MyTheme.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
 <!--
-        <item name="android:textSize">15sp</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
 -->
-        <item name="backgroundTint">@color/colorPrimaryLight</item>
-        <item name="rippleColor">@color/colorLightRed</item>
+        <item name="bottomSheetStyle">@style/Widget.MyTheme.BottomSheet.Modal</item>
+<!--
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+-->
+        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">@android:color/transparent</item>
+    </style>
+    <style name="Widget.MyTheme.BottomSheet.Modal" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="shapeAppearanceOverlay">?attr/shapeAppearanceLargeComponent</item>
     </style>
 
-    <style name="usaShopperButton3" parent="Widget.MaterialComponents.Button.TextButton">
+    <!--Navigation Drawer-->
+    <style name="Widget.MyTheme.NavigationView" parent="Widget.MaterialComponents.NavigationView">
+        <item name="itemTextAppearance">?attr/textAppearanceBody2</item>
+    </style>
+
+    <style name="Widget.App.Button.OutlinedButton.IconOnly" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:paddingLeft">4dp</item>
-        <item name="android:paddingStart">4dp</item>
-        <item name="android:paddingEnd">4dp</item>
         <item name="android:paddingRight">4dp</item>
-        <item name="android:textColor">@color/colorLightRed</item>
-        <item name="android:fontFamily">@font/gilroy_light</item>
-        <item name="iconTint">@color/colorLightRed</item>
-        <item name="android:textSize">15sp</item>
-        <item name="rippleColor">@color/colorLightBlue</item>
+        <item name="android:minWidth">24dp</item>
     </style>
 
-    <style name="usaShopperButton4" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:paddingLeft">13dp</item>
-        <item name="android:paddingStart">13dp</item>
-        <item name="android:paddingEnd">13dp</item>
-        <item name="android:paddingRight">13dp</item>
-        <item name="android:textColor">@color/colorLightRed</item>
+    <style name="UsaShopperTextLargeHeader1">
+        <item name="android:textColor">@color/black_800</item>
         <item name="android:fontFamily">@font/gilroy_light</item>
-        <item name="iconTint">@color/colorLightRed</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textSize">20sp</item>
-        <item name="rippleColor">@color/colorLightBlue</item>
-        <item name="shapeAppearance">@style/ShapeAppearance.MaterialComponents.LargeComponent</item>
-
     </style>
+
+    <style name="UsaShopperTextHeader1">
+        <item name="android:textColor">@color/black_1000</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+
+
+    <style name="UsaShopperTextBody1">
+        <item name="android:textColor">@color/black_800</item>
+        <item name="android:fontFamily">@font/gilroy_light</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+
 
 </resources>

@@ -1,5 +1,14 @@
 <resources>
     <string name="app_name">UsaShopper</string>
+    <string name="order_requested_on">Requested on %s</string>
+    <string name="order_requested_by">By %s</string>
+    
+    <plurals name="item_plurals">
+        <item quantity="one">%d Item, Total:</item>
+        <item quantity="other">%d Items, Total:</item>
+    </plurals>
+
+
     <string-array name="status">
         <item name="status_full">Full</item>
         <item name="status_partial">Partial</item>

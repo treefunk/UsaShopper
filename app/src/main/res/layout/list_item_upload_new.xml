@@ -22,9 +22,10 @@
 
         android:layout_marginTop="18dp"
         android:layout_marginRight="10dp"
-        style="@style/usaShopperButton3"
         app:icon="@drawable/ic_add_circle_outline_black_24dp"
+        app:strokeColor="@android:color/transparent"
         android:text="Add more"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         />
 
 

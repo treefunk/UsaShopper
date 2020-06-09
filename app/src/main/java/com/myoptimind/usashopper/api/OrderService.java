@@ -39,6 +39,7 @@ public interface OrderService {
     class OrderResponse{
 
         private Order data;
+        private Meta meta;
 
         public Order getData() {
             return data;
@@ -46,6 +47,14 @@ public interface OrderService {
 
         public void setData(Order data) {
             this.data = data;
+        }
+
+        public Meta getMeta() {
+            return meta;
+        }
+
+        public void setMeta(Meta meta) {
+            this.meta = meta;
         }
     }
 
@@ -66,12 +75,59 @@ public interface OrderService {
         }
     }
 
+    /**
+     * Upload image for single item
+     */
     @Multipart
     @POST("item/upload/{item_id}")
     Flowable<OrderUploadResponse> uploadOrder(
                 @Path("item_id") String itemId,
                 @Part MultipartBody.Part image
     );
+
+
+    /**
+     * Remove Uploaded image id
+     */
+    @POST("items/remove")
+    @FormUrlEncoded
+    Flowable<OrderRemoveUploadResponse> removeImage(
+            @Field("image_id") String imageId
+    );
+
+    class OrderRemoveUploadResponse {
+        private Boolean data;
+        private Meta meta;
+
+        public Boolean getData() {
+            return data;
+        }
+
+        public void setData(Boolean data) {
+            this.data = data;
+        }
+
+        public Meta getMeta() {
+            return meta;
+        }
+
+        public void setMeta(Meta meta) {
+            this.meta = meta;
+        }
+
+    }
+
+    /**
+     * Update item status
+     */
+    @POST("items/update")
+    @FormUrlEncoded
+    Flowable<OrderResponse> updateItemStatus(
+        @Field("id") String id,
+        @Field("status") String status
+    );
+
+
 
 
 

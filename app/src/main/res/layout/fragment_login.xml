@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
     android:paddingStart="35dp"
     android:paddingLeft="35dp"
     android:paddingEnd="35dp"
@@ -40,16 +39,13 @@
         app:layout_constraintHorizontal_bias="0.01"
 
         android:layout_marginBottom="25dp"
-
         android:text="Login"
         android:fontFamily="@font/gilroy_light"
-        android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp"
         />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtinput_username"
-        style="@style/usaShopperTextField1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -57,15 +53,15 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/label_login"
-
-        app:startIconDrawable="@drawable/ic_email_black_24dp">
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:startIconDrawable="@drawable/ic_email_black_24dp"
+        app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
-            android:padding="15dp"
             android:fontFamily="@font/gilroy_light"
             android:imeOptions="actionNext" />
 
@@ -73,7 +69,6 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtinput_password"
-        style="@style/usaShopperTextField1"
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content"
@@ -83,7 +78,8 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtinput_username"
         app:startIconDrawable="@drawable/ic_lock_black_24dp"
-        app:endIconTint="@color/colorPrimaryDark">
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_password"
@@ -92,24 +88,24 @@
             android:hint="Password"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
-            android:padding="15dp"
             android:fontFamily="@font/gilroy_light"
-
             />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btn_login"
-        style="@style/usaShopperButton1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
-        android:text="Sign in"
+        android:text="Sign In"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
 
         app:layout_constraintRight_toRightOf="parent"
+        android:fontFamily="@font/gilroy_light"
+        android:textAllCaps="false"
+        app:backgroundTint="@color/blue_500"
         app:layout_constraintTop_toBottomOf="@id/txtinput_password" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

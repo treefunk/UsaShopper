@@ -2,6 +2,7 @@ package com.myoptimind.usashopper.features.orderdetail;
 
 import android.app.Application;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,12 +14,17 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.myoptimind.usashopper.R;
 import com.myoptimind.usashopper.models.OrderUpload;
 
@@ -68,7 +74,7 @@ public class UploadOrderAdapter extends RecyclerView.Adapter {
      */
     public class UploadHolder extends RecyclerView.ViewHolder{
 
-        private ImageView ivUploadedImage;
+        private ImageView ivUploadedImage, ivLoadingImage;
         private ImageButton ibRemove;
         private UploadOrderListener mUploadOrderListener;
 
@@ -78,6 +84,7 @@ public class UploadOrderAdapter extends RecyclerView.Adapter {
             mUploadOrderListener = uploadOrderListener;
             ivUploadedImage = itemView.findViewById(R.id.iv_uploaded_image);
             ibRemove        = itemView.findViewById(R.id.ib_remove);
+            ivLoadingImage  = itemView.findViewById(R.id.iv_loading);
 
             ivUploadedImage.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -94,10 +101,29 @@ public class UploadOrderAdapter extends RecyclerView.Adapter {
         }
 
         void bind(OrderUpload orderUpload, int position){
+            ivUploadedImage.setVisibility(View.INVISIBLE);
+
+            Glide.with(itemView.getContext())
+                    .load(R.raw.dualball)
+                    .into(ivLoadingImage);
+
             Glide.with(itemView.getContext())
                     .load(
                            orderUpload.getImage()
                     )
+                    .addListener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            ivLoadingImage.setVisibility(View.GONE);
+                            ivUploadedImage.setVisibility(View.VISIBLE);
+                            return false;
+                        }
+                    })
                     .into(ivUploadedImage);
         }
     }

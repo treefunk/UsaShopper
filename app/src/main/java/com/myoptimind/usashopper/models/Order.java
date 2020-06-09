@@ -1,6 +1,8 @@
 package com.myoptimind.usashopper.models;
 
 
+import android.widget.Switch;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -13,13 +15,23 @@ public class Order {
 
     private String id;
 
+    private String label;
+
     @SerializedName("order_id")
     private String orderId;
 
     private String link;
 
+    @SerializedName("qty")
+    private String quantity;
+
+    private String price;
+
     @SerializedName("status")
     private String status;
+
+    @SerializedName("formatted_status")
+    private String formattedStatus;
 
     @SerializedName("requested_date")
     private String requestedDate;
@@ -27,8 +39,18 @@ public class Order {
     @SerializedName("shopper_email")
     private String shopperEmail;
 
+    @SerializedName("shopper")
+    private String shopperName;
+
+    @SerializedName("other_info")
+    private String otherInfo;
+
+
     @SerializedName("warehouse")
     private List<OrderUpload> uploads;
+
+    @SerializedName("item_status")
+    private List<OrderStatus> statusList;
 
     public String getOrderId() {
         return orderId;
@@ -84,5 +106,78 @@ public class Order {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getFormattedStatus() {
+        return formattedStatus;
+    }
+
+    public void setFormattedStatus(String formattedStatus) {
+        this.formattedStatus = formattedStatus;
+    }
+
+    public String getShopperName() {
+        return shopperName;
+    }
+
+    public void setShopperName(String shopperName) {
+        this.shopperName = shopperName;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public String getOtherInfo() {
+        return otherInfo;
+    }
+
+    public void setOtherInfo(String otherInfo) {
+        this.otherInfo = otherInfo;
+    }
+
+    public List<OrderStatus> getStatusList() {
+        return statusList;
+    }
+
+    public void setStatusList(List<OrderStatus> statusList) {
+        this.statusList = statusList;
+    }
+
+    public String getStatusColorHex(){
+        switch(getFormattedStatus()){
+            case "Waiting" : {
+                return "#F18237";
+            }
+            case "Complete Delivery": {
+                return "#38B21E";
+            }
+            case "Partial Delivery": {
+                return "#91EB7E";
+            }
+            default: {
+                return "#25305D";
+            }
+        }
     }
 }

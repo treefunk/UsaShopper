@@ -1,5 +1,7 @@
 package com.myoptimind.usashopper.features.searchorder;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.myoptimind.usashopper.R;
 import com.myoptimind.usashopper.models.Order;
 
+import java.util.Currency;
 import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
@@ -34,27 +37,57 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
     class OrderViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvOrderNum,tvOrderSub,tvOrderDate;
+        TextView tvLabel,tvNum,tvRequestDate,tvShopperName,tvQuantity,tvTotalPrice,tvStatus;
         Button btnView;
         OrderListener mOrderListener;
+        Context mContext;
 
         public OrderViewHolder(@NonNull View itemView,OrderListener orderListener) {
 
             super(itemView);
 
-            tvOrderNum  = itemView.findViewById(R.id.tv_order_num);
-            tvOrderSub  = itemView.findViewById(R.id.tv_order_sub);
-            tvOrderDate = itemView.findViewById(R.id.tv_date);
-            btnView     = itemView.findViewById(R.id.btn_view);
-            mOrderListener = orderListener;
+            tvLabel       = itemView.findViewById(R.id.tv_order_label);
+            tvNum         = itemView.findViewById(R.id.tv_order_num);
+            tvRequestDate = itemView.findViewById(R.id.tv_order_request_date);
+            tvShopperName = itemView.findViewById(R.id.tv_order_shopper_name);
+            tvQuantity    = itemView.findViewById(R.id.tv_order_quantity);
+            tvTotalPrice  = itemView.findViewById(R.id.tv_order_price);
+            tvStatus      = itemView.findViewById(R.id.tv_order_status);
 
+            btnView       = itemView.findViewById(R.id.btn_view);
+
+            mOrderListener = orderListener;
+            mContext = itemView.getContext();
         }
 
         public void bind(final Order order, final int position){
 
-            tvOrderNum.setText(order.getOrderId());
-            tvOrderSub.setText(order.getShopperEmail());
-            tvOrderDate.setText(order.getRequestedDate());
+            tvLabel.setText(order.getLabel());
+            tvNum.setText(order.getOrderId());
+            tvRequestDate.setText(
+                    mContext.getString(
+                            R.string.order_requested_on,
+                            order.getRequestedDate()
+                    )
+            );
+
+            tvShopperName.setText(
+                    mContext.getString(
+                            R.string.order_requested_by,
+                            order.getShopperName()
+                    )
+            );
+            tvQuantity.setText(
+                    mContext.getResources().getQuantityString(
+                            R.plurals.item_plurals,
+                            Integer.parseInt(order.getQuantity()),
+                            Integer.parseInt(order.getQuantity())
+                    )
+            );
+
+            tvTotalPrice.setText("₱" + Double.parseDouble(order.getPrice()));
+            tvStatus.setText(order.getFormattedStatus());
+            tvStatus.setTextColor(Color.parseColor(order.getStatusColorHex()));
 
             btnView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -3,7 +3,6 @@
     package="com.myoptimind.usashopper">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-feature android:name="android.hardware.CAMERA"
@@ -21,34 +20,34 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".features.login.LoginActivity"
+            android:label=""
             android:windowSoftInputMode="adjustPan">
+
 
 
         </activity>
 
         <activity android:name=".features.searchorder.SearchActivity"
-            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
             android:launchMode="singleTop"
             android:label=""
             android:windowSoftInputMode="adjustNothing"
             >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+
         </activity>
 
         <activity android:name=".features.orderdetail.OrderActivity"
-            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
             android:launchMode="singleTop"
             android:label=""
             android:parentActivityName=".features.searchorder.SearchActivity">
-
         </activity>
 
         <activity android:name=".features.orderdetail.SlideShowActivity"
-            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
             android:label=""
             android:parentActivityName=".features.orderdetail.OrderActivity">
         </activity>

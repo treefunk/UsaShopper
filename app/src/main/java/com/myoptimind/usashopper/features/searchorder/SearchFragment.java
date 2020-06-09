@@ -2,7 +2,6 @@ package com.myoptimind.usashopper.features.searchorder;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.transition.ChangeBounds;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.TransitionManager;
-import androidx.transition.TransitionSet;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.myoptimind.usashopper.features.orderdetail.OrderActivity;
@@ -64,7 +62,7 @@ public class SearchFragment extends Fragment {
         searchViewModel.getIsFetchingOrders().observe(getViewLifecycleOwner(), (Boolean isFetching) -> {
             btnSearch.setEnabled(!isFetching);
             if(isFetching){
-                btnSearch.setText("Searching...");
+                btnSearch.setText("");
             }else{
                 btnSearch.setText("Search");
             }
@@ -81,11 +79,12 @@ public class SearchFragment extends Fragment {
                     if(constraintSet == null){
                         constraintSet = new ConstraintSet();
                         constraintSet.clone(getActivity(),R.layout.fragment_search);
-                        constraintSet.connect(root.findViewById(R.id.btn_search).getId(),ConstraintSet.BOTTOM,
+                        constraintSet.connect(root.findViewById(R.id.card_search).getId(),ConstraintSet.BOTTOM,
                                 rvOrders.getId(),ConstraintSet.TOP);
                         TransitionManager.beginDelayedTransition(root);
                         constraintSet.applyTo(root);
-                        getActivity().setTitle("Search Order");
+                        /*getActivity().setTitle("Search Order");*/
+                        rvOrders.setVisibility(View.VISIBLE);
                     }
 
 

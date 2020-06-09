@@ -33,5 +33,13 @@ public class OrderRepository {
         return mOrderService.uploadOrder(itemId,uploadMultipart);
     }
 
+    public Flowable<OrderService.OrderResponse> updateItemStatus(String itemId, String status){
+        return mOrderService.updateItemStatus(itemId,status);
+    }
+
+    public Flowable<OrderService.OrderRemoveUploadResponse> removeUploadedImage(String imageId){
+        return mOrderService.removeImage(imageId);
+    }
+
 
 }
