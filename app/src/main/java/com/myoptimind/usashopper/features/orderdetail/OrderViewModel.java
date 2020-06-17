@@ -6,10 +6,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.myoptimind.usashopper.Utils;
 import com.myoptimind.usashopper.api.ErrorResponse;
 import com.myoptimind.usashopper.api.OrderService;
 import com.myoptimind.usashopper.api.RequestListener;
 import com.myoptimind.usashopper.api.UsaShopperApi;
+import com.myoptimind.usashopper.features.shared.SingleLiveEvent;
 import com.myoptimind.usashopper.models.Order;
 import com.myoptimind.usashopper.models.OrderStatus;
 import com.myoptimind.usashopper.models.OrderUpload;
@@ -37,8 +39,8 @@ public class OrderViewModel extends ViewModel {
     private MutableLiveData<List<OrderUpload>> mOrderUploads = new MutableLiveData<>();
     private MutableLiveData<OrderStatus> mOrderStatus        = new MutableLiveData<>();
     private MutableLiveData<List<OrderStatus>> mStatusList   = new MutableLiveData<>();
-
     private MutableLiveData<File> mUploaded                  = new MutableLiveData<>();
+    private SingleLiveEvent<String> alertMessage             = new SingleLiveEvent<>();
 
 
     private OrderRepository mOrderRepository;
@@ -85,6 +87,11 @@ public class OrderViewModel extends ViewModel {
                         mStatusList.setValue(order.getStatusList());
 
                     }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        alertMessage.setValue(Utils.handleRequestExceptions(throwable));
+                    }
                 })
         );
     }
@@ -107,26 +114,21 @@ public class OrderViewModel extends ViewModel {
                 multipart
         ).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<OrderService.OrderUploadResponse>() {
-                    @Override
-                    public void accept(OrderService.OrderUploadResponse orderUploadResponse) throws Exception {
-                        List<OrderUpload> uploads = mOrderUploads.getValue();
-//                        getUploaded().getValue().delete();
-//                        setUploaded(null);
-                        uploads.remove(uploads.size() - 1);
-                        uploads.add(orderUploadResponse.getData());
-                        uploads.add(null);
-                        mOrderUploads.setValue(uploads);
+                .subscribe(orderUploadResponse -> {
+                    List<OrderUpload> uploads = mOrderUploads.getValue();
+                    if(getUploaded().getValue().exists()){
+                        Log.d(TAG,"file upload deleted after successful upload.");
+                        getUploaded().getValue().delete();
                     }
+                    setUploaded(null);
+                    uploads.remove(uploads.size() - 1);
+                    uploads.add(orderUploadResponse.getData());
+                    uploads.add(null);
+                    mOrderUploads.setValue(uploads);
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.d(TAG,throwable.getMessage());
-//                        getUploaded().getValue().delete();
-//                        setUploaded(null);
-                        HttpException e = (HttpException) throwable;
-                        ErrorResponse errorResponse = UsaShopperApi.getConverter().convert(e.response().errorBody());
-                        Log.d(TAG,errorResponse.getMeta().getMessage());
+                        alertMessage.setValue(Utils.handleRequestExceptions(throwable));
                     }
                 })
         );
@@ -140,18 +142,23 @@ public class OrderViewModel extends ViewModel {
                         statusId
                 ).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<OrderService.OrderResponse>() {
-                    @Override
-                    public void accept(OrderService.OrderResponse orderResponse) throws Exception {
-                        if(orderResponse.getMeta().getStatus().equals("200")){
-                            OrderStatus orderStatus = new OrderStatus();
-                            orderStatus.setLabel(orderResponse.getData().getFormattedStatus());
-                            orderStatus.setId(orderResponse.getData().getStatus());
-                            mOrderStatus.setValue(orderStatus);
-                            requestListener.onFinishRequest(true);
-                        }else{
-                            requestListener.onFinishRequest(false);
-                        }
+                .subscribe(orderResponse -> {
+                    if(orderResponse.getMeta().getStatus().equals("200")){
+                        OrderStatus orderStatus = new OrderStatus();
+                        orderStatus.setLabel(orderResponse.getData().getFormattedStatus());
+                        orderStatus.setId(orderResponse.getData().getStatus());
+                        mOrderStatus.setValue(orderStatus);
+                        requestListener.onFinishRequest(true);
+                    }else{
+                        requestListener.onFinishRequest(false);
+                    }
+                }, error -> {
+                    try{
+                        HttpException e = (HttpException) error;
+                        ErrorResponse errorResponse = UsaShopperApi.getConverter().convert(e.response().errorBody());
+                        requestListener.onRequestError(errorResponse.getMeta().getMessage(),100);
+                    }catch (Exception e){
+                        requestListener.onRequestError(Utils.handleRequestExceptions(e),900);
                     }
                 })
         );
@@ -186,6 +193,10 @@ public class OrderViewModel extends ViewModel {
                             requestListener.onFinishRequest(false);
                         }
                     }
+                }, e -> {
+                    Log.e(TAG,e.getMessage());
+                    requestListener.onFinishRequest(false);
+                    requestListener.onRequestError(Utils.handleRequestExceptions(e),900);
                 })
         );
 
@@ -215,5 +226,9 @@ public class OrderViewModel extends ViewModel {
     protected void onCleared() {
         super.onCleared();
         mDisposable.clear();
+    }
+
+    public LiveData<String> getAlertMessage() {
+        return alertMessage;
     }
 }

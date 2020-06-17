@@ -26,6 +26,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         mOrders = orders;
     }
 
+    public List<Order> getOrders() {
+        return mOrders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        mOrders = orders;
+    }
+
     public void setOrderListener(OrderListener orderListener) {
         mOrderListener = orderListener;
     }

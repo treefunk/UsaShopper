@@ -2,7 +2,10 @@
     <string name="app_name">UsaShopper</string>
     <string name="order_requested_on">Requested on %s</string>
     <string name="order_requested_by">By %s</string>
-    
+    <string name="nav_header_subtitle">Warehouse Administrator</string>
+    <string name="nav_open_string">Open Navigation</string>
+    <string name="nav_close_string">Close Navigation</string>
+
     <plurals name="item_plurals">
         <item quantity="one">%d Item, Total:</item>
         <item quantity="other">%d Items, Total:</item>

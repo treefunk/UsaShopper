@@ -29,9 +29,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.TransitionManager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
+import com.bumptech.glide.RequestBuilder;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.myoptimind.usashopper.R;
+import com.myoptimind.usashopper.Utils;
 import com.myoptimind.usashopper.api.RequestListener;
+import com.myoptimind.usashopper.features.searchorder.SearchFragment;
 import com.myoptimind.usashopper.models.Order;
 import com.myoptimind.usashopper.models.OrderUpload;
 
@@ -41,6 +45,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import okhttp3.internal.Util;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -107,10 +113,15 @@ public class OrderFragment extends Fragment{
             public void onChanged(Order order) {
                 if(order != null){
                     initOrderFields(order);
+                    view.findViewById(R.id.group_loading).setVisibility(View.GONE);
                 }else{
 
                 }
             }
+        });
+
+        orderViewModel.getAlertMessage().observe(getViewLifecycleOwner(), alertMessage -> {
+            Toast.makeText(getActivity(),alertMessage,Toast.LENGTH_SHORT).show();
         });
 
         initOrderUploads();
@@ -122,10 +133,14 @@ public class OrderFragment extends Fragment{
 
     private void initLoadingIcon() {
         ivLoading = view.findViewById(R.id.iv_loading);
+//        ImageView ivMainLoading = view.findViewById(R.id.loading_image);
 
-        Glide.with(getActivity())
-                .load(R.raw.dualball)
-                .into(ivLoading);
+        RequestBuilder builder = Glide.with(getActivity())
+                .load(R.raw.dualball);
+
+        builder.into(ivLoading);
+//        builder.into(ivMainLoading);
+
     }
 
 /*    private void initFab() {
@@ -206,6 +221,15 @@ public class OrderFragment extends Fragment{
                 R.id.card_main_detail,
                 ConstraintSet.BOTTOM
         );
+
+
+        constraintSet.connect(
+                R.id.card_status_panel,
+                ConstraintSet.BOTTOM,
+                ConstraintSet.PARENT_ID,
+                ConstraintSet.BOTTOM
+        );
+
 
         TransitionManager.beginDelayedTransition(mConstraintLayout);
 
@@ -320,16 +344,18 @@ public class OrderFragment extends Fragment{
                                                 public void onRequestStart() {
 
                                                 }
-
                                                 @Override
                                                 public void onFinishRequest(Boolean isSuccess) {
                                                     if(isSuccess){
 //                                                        orderUploads.remove(pos);
                                                         uploadOrderAdapter.notifyItemRemoved(pos);
                                                         Toast.makeText(getActivity(),"Image Successfully Removed.",Toast.LENGTH_SHORT ).show();
-                                                    }else{
-                                                        Toast.makeText(getActivity(),"Please Update Status to \"Waiting\" before clearing Uploaded Images for this item.",Toast.LENGTH_LONG).show();
                                                     }
+                                                }
+
+                                                @Override
+                                                public void onRequestError(String message, int errorCode) {
+                                                    Toast.makeText(getActivity(), message,Toast.LENGTH_LONG).show();
                                                 }
                                             });
 
@@ -416,6 +442,8 @@ public class OrderFragment extends Fragment{
             String selectedStatusId = bundle.getString(DialogStatusFragment.KEY_STATUS_ID);
             String label            = bundle.getString(DialogStatusFragment.KEY_STATUS_LABEL);
 
+
+
             orderViewModel.updateItemStatus(selectedStatusId, new RequestListener() {
                 @Override
                 public void onRequestStart() {
@@ -432,9 +460,18 @@ public class OrderFragment extends Fragment{
                     ivLoading.setVisibility(View.GONE);
                     if(isSuccess){
                         Toast.makeText(getActivity(),"Status Successfully Updated.",Toast.LENGTH_SHORT ).show();
+                        Intent intent = new Intent();
+                        intent.putExtra(SearchFragment.REQUEST_STATUS_LABEL_KEY,label);
+                        intent.putExtra(SearchFragment.REQUEST_STATUS_KEY,selectedStatusId);
+                        getActivity().setResult(SearchFragment.REQUEST_SINGLE_ORDER,intent);
                     }else{
                         Toast.makeText(getActivity(),"Something went wrong, Please try again.",Toast.LENGTH_SHORT ).show();
                     }
+                }
+
+                @Override
+                public void onRequestError(String message, int errorCode) {
+                    Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
                 }
             });
 

@@ -2,10 +2,12 @@ package com.myoptimind.usashopper.features.searchorder;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +23,7 @@ import androidx.transition.TransitionManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.myoptimind.usashopper.features.orderdetail.OrderActivity;
 import com.myoptimind.usashopper.R;
+import com.myoptimind.usashopper.features.shared.AppSharedPref;
 import com.myoptimind.usashopper.models.Order;
 
 import java.util.ArrayList;
@@ -29,8 +32,17 @@ import java.util.List;
 public class SearchFragment extends Fragment {
 
     private final String TAG = "SearchFragment";
+
+    public static final int REQUEST_SINGLE_ORDER = 444;
+    public static final String REQUEST_STATUS_LABEL_KEY = "status_label_key";
+    public static final String REQUEST_STATUS_KEY = "status_key";
+
+
     private ConstraintLayout root;
     ConstraintSet constraintSet = null;
+    private int currentPos = -1;
+    private OrderAdapter orderAdapter;
+
 
     @Nullable
     @Override
@@ -40,6 +52,8 @@ public class SearchFragment extends Fragment {
         RecyclerView rvOrders      = v.findViewById(R.id.rv_orders);
         TextInputEditText etSearch = v.findViewById(R.id.et_search);
         Button btnSearch           = v.findViewById(R.id.btn_search);
+
+        getActivity().setTitle("Admin: " + AppSharedPref.getInstance(getActivity()).getLoggedInName());
 
 
         setupSearch(
@@ -53,18 +67,33 @@ public class SearchFragment extends Fragment {
         return v;
     }
 
-    private void setupSearch(final RecyclerView rvOrders, final TextInputEditText etSearch,Button btnSearch) {
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    private void setupSearch(final RecyclerView rvOrders, final TextInputEditText etSearch, Button btnSearch) {
 
         SearchViewModel searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
 
         rvOrders.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false));
-        rvOrders.setAdapter(new OrderAdapter(new ArrayList<>()));
+        orderAdapter = new OrderAdapter(new ArrayList<>());
+
+
+        rvOrders.setAdapter(orderAdapter);
         searchViewModel.getIsFetchingOrders().observe(getViewLifecycleOwner(), (Boolean isFetching) -> {
             btnSearch.setEnabled(!isFetching);
             if(isFetching){
                 btnSearch.setText("");
             }else{
                 btnSearch.setText("Search");
+            }
+        });
+
+        searchViewModel.getAlertMessage().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Toast.makeText(getActivity(),s,Toast.LENGTH_LONG).show();
             }
         });
 
@@ -83,18 +112,18 @@ public class SearchFragment extends Fragment {
                                 rvOrders.getId(),ConstraintSet.TOP);
                         TransitionManager.beginDelayedTransition(root);
                         constraintSet.applyTo(root);
-                        /*getActivity().setTitle("Search Order");*/
                         rvOrders.setVisibility(View.VISIBLE);
                     }
 
 
-                    final OrderAdapter orderAdapter = new OrderAdapter(orders);
+                    orderAdapter = new OrderAdapter(orders);
 
                     orderAdapter.setOrderListener(new OrderAdapter.OrderListener() {
                         @Override
                         public void onClickView(Order order, int position) {
                             Intent intent = OrderActivity.createIntent(getActivity(),order.getId());
-                            startActivity(intent);
+                            currentPos = position;
+                            SearchFragment.this.startActivityForResult(intent,REQUEST_SINGLE_ORDER);
                         }
                     });
 
@@ -114,5 +143,23 @@ public class SearchFragment extends Fragment {
 
     }
 
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode){
+            case REQUEST_SINGLE_ORDER: {
+                if(data != null){
+                    Bundle bundle = data.getExtras();
+                    if(currentPos != -1 && orderAdapter != null){
+                        Log.v(TAG, "notified item " + currentPos);
+                        orderAdapter.getOrders().get(currentPos).setFormattedStatus(bundle.getString(REQUEST_STATUS_LABEL_KEY));
+                        orderAdapter.getOrders().get(currentPos).setStatus(bundle.getString(REQUEST_STATUS_KEY));
+                        orderAdapter.notifyItemChanged(currentPos);
+                        currentPos = -1; // reset
+                    }
+                }
+                break;
+            }
+        }
+    }
 }

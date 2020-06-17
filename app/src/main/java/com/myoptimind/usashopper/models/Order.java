@@ -1,6 +1,8 @@
 package com.myoptimind.usashopper.models;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.widget.Switch;
 
 import com.google.gson.annotations.SerializedName;
@@ -8,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 //TODO modify attributes
-public class Order {
+public class Order implements Parcelable {
 
     public static final String TYPE_ORDER_FULL    = "type_order_full";
     public static final String TYPE_ORDER_PARTIAL = "type_order_partial";
@@ -163,6 +165,34 @@ public class Order {
     public void setStatusList(List<OrderStatus> statusList) {
         this.statusList = statusList;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.status);
+        dest.writeString(this.formattedStatus);
+    }
+
+    public Order(Parcel parcel) {
+        this.status = parcel.readString();
+        this.formattedStatus = parcel.readString();
+    }
+
+    public Creator<Order> CREATOR = new Creator<Order>() {
+        @Override
+        public Order createFromParcel(Parcel source) {
+            return null;
+        }
+
+        @Override
+        public Order[] newArray(int size) {
+            return new Order[size];
+        }
+    };
 
     public String getStatusColorHex(){
         switch(getFormattedStatus()){

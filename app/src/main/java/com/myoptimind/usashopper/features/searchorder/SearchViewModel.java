@@ -6,7 +6,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.myoptimind.usashopper.Utils;
 import com.myoptimind.usashopper.api.OrderService;
+import com.myoptimind.usashopper.features.shared.SingleLiveEvent;
 import com.myoptimind.usashopper.models.Order;
 import com.myoptimind.usashopper.repositories.OrderRepository;
 
@@ -25,6 +27,7 @@ public class SearchViewModel extends ViewModel {
     OrderRepository mOrderRepository;
     private MutableLiveData<List<Order>> mOrders = new MutableLiveData<>();
     private MutableLiveData<Boolean> isFetchingOrders = new MutableLiveData<>();
+    private SingleLiveEvent<String> alertMessage = new SingleLiveEvent<>();
 
     private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
@@ -57,7 +60,7 @@ public class SearchViewModel extends ViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e(TAG,"error: " + throwable.getMessage());
+                        alertMessage.setValue(Utils.handleRequestExceptions(throwable));
                         isFetchingOrders.postValue(false);
                     }
                 }));
@@ -69,6 +72,10 @@ public class SearchViewModel extends ViewModel {
 
     public LiveData<Boolean> getIsFetchingOrders() {
         return isFetchingOrders;
+    }
+
+    public LiveData<String> getAlertMessage() {
+        return alertMessage;
     }
 
     @Override

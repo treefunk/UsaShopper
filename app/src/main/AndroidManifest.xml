@@ -21,33 +21,33 @@
 
         <activity android:name=".features.login.LoginActivity"
             android:label=""
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
-
-
-
-        </activity>
-
-        <activity android:name=".features.searchorder.SearchActivity"
-            android:launchMode="singleTop"
-            android:label=""
-            android:windowSoftInputMode="adjustNothing"
-            >
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
 
+        <activity android:name=".features.searchorder.SearchActivity"
+            android:screenOrientation="portrait"
 
+            android:launchMode="singleTop"
+            android:label=""
+            android:windowSoftInputMode="adjustNothing"
+            >
         </activity>
 
         <activity android:name=".features.orderdetail.OrderActivity"
+            android:screenOrientation="portrait"
+
             android:launchMode="singleTop"
             android:label=""
             android:parentActivityName=".features.searchorder.SearchActivity">
         </activity>
 
         <activity android:name=".features.orderdetail.SlideShowActivity"
+
             android:label=""
             android:parentActivityName=".features.orderdetail.OrderActivity">
         </activity>

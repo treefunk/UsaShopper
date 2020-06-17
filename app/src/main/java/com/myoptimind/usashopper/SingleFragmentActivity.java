@@ -10,13 +10,16 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.navigation.NavigationView;
 import com.myoptimind.usashopper.features.login.LoginActivity;
+import com.myoptimind.usashopper.features.shared.AppSharedPref;
 
 public abstract class SingleFragmentActivity extends AppCompatActivity {
 
@@ -41,8 +44,11 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+
+
 
         if(!bottomNavVisibility){
             findViewById(R.id.bottom_navigation).setVisibility(View.GONE);
@@ -69,10 +75,13 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getTitle() != null){
             if(item.getTitle().toString().equalsIgnoreCase("log out")){
+                AppSharedPref.getInstance(getApplicationContext()).clear();
                 Intent intent = LoginActivity.createIntent(this);
                 startActivity(intent);
             }

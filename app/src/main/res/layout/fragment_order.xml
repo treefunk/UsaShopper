@@ -6,7 +6,28 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     >
-<androidx.core.widget.NestedScrollView
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="loading_overlay"
+        android:visibility="visible"
+        tools:visibility="gone"
+        />
+    <View
+        android:id="@+id/loading_overlay"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/black_transpar"
+        android:elevation="100dp"
+        />
+
+    <androidx.core.widget.NestedScrollView
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintRight_toRightOf="parent"
     app:layout_constraintTop_toTopOf="parent"
@@ -14,6 +35,8 @@
     app:layout_constraintVertical_bias="0"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
+
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/cl_order"
     android:layout_width="match_parent"
@@ -21,6 +44,8 @@
     android:background="@color/red_1500"
     android:paddingBottom="140dp"
     >
+
+
 
 
 
@@ -324,7 +349,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
 
-        app:layout_constraintVertical_bias="0"
         app:strokeColor="@drawable/card_stroke_color"
         app:strokeWidth="1dp"
         android:visibility="visible"
@@ -374,9 +398,9 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/btn_mark_as_arrived"
-                android:padding="10dp"
+                android:layout_marginTop="5dp"
 
-                android:text="Partial Delivery"
+                android:text=""
                 android:textColor="@color/black_800"
                 android:textAllCaps="false"
                 android:gravity="center"
