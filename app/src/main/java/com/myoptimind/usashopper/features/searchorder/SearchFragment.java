@@ -53,7 +53,7 @@ public class SearchFragment extends Fragment {
         TextInputEditText etSearch = v.findViewById(R.id.et_search);
         Button btnSearch           = v.findViewById(R.id.btn_search);
 
-        getActivity().setTitle("Admin: " + AppSharedPref.getInstance(getActivity()).getLoggedInName());
+        getActivity().setTitle(AppSharedPref.getInstance(getActivity()).getLoggedInName());
 
 
         setupSearch(
