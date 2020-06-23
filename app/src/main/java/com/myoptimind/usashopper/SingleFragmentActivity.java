@@ -69,7 +69,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     }
 
-    @Override
+/*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.side_menu_nav,menu);
         return super.onCreateOptionsMenu(menu);
@@ -89,5 +89,5 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 //            onBackPressed();
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }

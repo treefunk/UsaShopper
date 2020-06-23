@@ -29,13 +29,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.TransitionManager;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.RequestBuilder;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.myoptimind.usashopper.R;
-import com.myoptimind.usashopper.Utils;
 import com.myoptimind.usashopper.api.RequestListener;
+import com.myoptimind.usashopper.features.uploadedorderview.SlideShowActivity;
 import com.myoptimind.usashopper.features.searchorder.SearchFragment;
+import com.myoptimind.usashopper.features.uploadedorderview.SlideShowFragment;
 import com.myoptimind.usashopper.models.Order;
 import com.myoptimind.usashopper.models.OrderUpload;
 
@@ -45,8 +45,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import okhttp3.internal.Util;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -58,6 +56,7 @@ public class OrderFragment extends Fragment{
 
     private static final int REQUEST_IMAGE_CAPTURE = 300;
     public static final int REQUEST_ORDER_STATUS   = 400;
+    public static final int REQUEST_VIEW_UPLOADED_ORDER = 500;
 
     private String orderId;
 
@@ -328,7 +327,7 @@ public class OrderFragment extends Fragment{
                                     (ArrayList<OrderUpload>)orderUploads,
                                     pos
                             );
-                            startActivity(intent);
+                            startActivityForResult(intent,REQUEST_VIEW_UPLOADED_ORDER);
                         }
 
                         @Override
@@ -436,13 +435,9 @@ public class OrderFragment extends Fragment{
                 orderViewModel.setUploaded(uploaded);
             }
         }else if(requestCode == REQUEST_ORDER_STATUS && resultCode == RESULT_OK){
-
-
             Bundle bundle = data.getExtras();
             String selectedStatusId = bundle.getString(DialogStatusFragment.KEY_STATUS_ID);
             String label            = bundle.getString(DialogStatusFragment.KEY_STATUS_LABEL);
-
-
 
             orderViewModel.updateItemStatus(selectedStatusId, new RequestListener() {
                 @Override
@@ -475,6 +470,15 @@ public class OrderFragment extends Fragment{
                 }
             });
 
+        }else if(requestCode == REQUEST_VIEW_UPLOADED_ORDER && resultCode == RESULT_OK){
+            Bundle bundle = data.getExtras();
+            if(bundle != null){
+                int pos = bundle.getInt(SlideShowFragment.KEY_POSITION);
+                String description = bundle.getString(SlideShowFragment.KEY_DESCRIPTION);
+                List<OrderUpload> uploads = orderViewModel.getOrderUploads().getValue();
+                uploads.get(pos).setCaption(description);
+                orderViewModel.setOrderUploads(uploads);
+            }
         }
     }
 

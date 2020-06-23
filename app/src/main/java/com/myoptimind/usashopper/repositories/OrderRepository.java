@@ -41,5 +41,9 @@ public class OrderRepository {
         return mOrderService.removeImage(imageId);
     }
 
+    public Flowable<OrderService.OrderUploadResponse> updateDescription(String uploadedId, String description){
+        return mOrderService.updateUploadedCaption(uploadedId,description);
+    }
+
 
 }

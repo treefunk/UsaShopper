@@ -125,12 +125,7 @@ public class OrderViewModel extends ViewModel {
                     uploads.add(orderUploadResponse.getData());
                     uploads.add(null);
                     mOrderUploads.setValue(uploads);
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        alertMessage.setValue(Utils.handleRequestExceptions(throwable));
-                    }
-                })
+                }, throwable -> alertMessage.setValue(Utils.handleRequestExceptions(throwable)))
         );
     }
 
@@ -162,6 +157,10 @@ public class OrderViewModel extends ViewModel {
                     }
                 })
         );
+    }
+
+    public void setOrderUploads(List<OrderUpload> orderUploads) {
+        mOrderUploads.setValue(orderUploads);
     }
 
     public void removeUploadedImage(int pos, String imageId, RequestListener requestListener){

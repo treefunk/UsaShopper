@@ -7,11 +7,15 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.myoptimind.usashopper.Utils;
+import com.myoptimind.usashopper.api.ErrorResponse;
 import com.myoptimind.usashopper.api.OrderService;
+import com.myoptimind.usashopper.api.UsaShopperApi;
 import com.myoptimind.usashopper.features.shared.SingleLiveEvent;
 import com.myoptimind.usashopper.models.Order;
 import com.myoptimind.usashopper.repositories.OrderRepository;
 
+import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -19,6 +23,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.HttpException;
 
 public class SearchViewModel extends ViewModel {
 
@@ -60,7 +65,20 @@ public class SearchViewModel extends ViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        alertMessage.setValue(Utils.handleRequestExceptions(throwable));
+
+                        if(throwable instanceof UnknownHostException){
+                            alertMessage.setValue("Internet Connection is required. Please try again.");
+                        }
+                        try{
+                            HttpException e = (HttpException) throwable;
+                            ErrorResponse errorResponse = UsaShopperApi.getConverter().convert(e.response().errorBody());
+                            alertMessage.setValue(errorResponse.getMeta().getMessage());
+                            if(errorResponse.getMeta().getStatus().equals("404")){
+                                mOrders.postValue(new ArrayList<>());
+                            }
+                        }catch (Exception e){
+                            alertMessage.setValue(e.getMessage());
+                        }
                         isFetchingOrders.postValue(false);
                     }
                 }));

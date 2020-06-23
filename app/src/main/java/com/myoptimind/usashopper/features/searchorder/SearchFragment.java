@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.TransitionManager;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.myoptimind.usashopper.features.login.LoginActivity;
 import com.myoptimind.usashopper.features.orderdetail.OrderActivity;
 import com.myoptimind.usashopper.R;
 import com.myoptimind.usashopper.features.shared.AppSharedPref;
@@ -43,6 +47,11 @@ public class SearchFragment extends Fragment {
     private int currentPos = -1;
     private OrderAdapter orderAdapter;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Nullable
     @Override
@@ -143,6 +152,8 @@ public class SearchFragment extends Fragment {
 
     }
 
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -161,5 +172,25 @@ public class SearchFragment extends Fragment {
                 break;
             }
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.side_menu_nav,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getTitle() != null){
+            if(item.getTitle().toString().equalsIgnoreCase("log out")){
+                AppSharedPref.getInstance(getActivity().getApplicationContext()).clear();
+                Intent intent = LoginActivity.createIntent(getActivity());
+                startActivity(intent);
+            }
+        }else{
+//            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

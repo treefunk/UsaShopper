@@ -46,9 +46,10 @@
             android:parentActivityName=".features.searchorder.SearchActivity">
         </activity>
 
-        <activity android:name=".features.orderdetail.SlideShowActivity"
+        <activity android:name=".features.uploadedorderview.SlideShowActivity"
 
             android:label=""
+            android:windowSoftInputMode="adjustResize"
             android:parentActivityName=".features.orderdetail.OrderActivity">
         </activity>
         
